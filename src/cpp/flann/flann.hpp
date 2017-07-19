@@ -80,6 +80,28 @@ public:
     typedef typename Distance::ResultType DistanceType;
     typedef NNIndex<Distance> IndexType;
 
+    Index() {}
+
+    void load_saved_index(const FILE* fin)
+    {
+        Distance distance();
+        Matrix<ElementType> dataset;
+        IndexHeader header = load_header(fin);
+        if (header.h.data_type != flann_datatype_value<ElementType>::value) {
+            throw FLANNException("Datatype of saved index is different than of the one to be loaded.");
+        }
+
+        IndexParams params;
+        params["algorithm"] = header.h.index_type;
+        IndexType* nnIndex = create_index_by_type<Distance>(header.h.index_type, dataset, params, distance);
+        rewind(fin);
+        nnIndex->loadIndex(fin);
+
+        nnIndex_ = nnIndex;
+        loaded_ = true;
+    }
+
+
     Index(const IndexParams& params, Distance distance = Distance() )
         : index_params_(params)
     {
@@ -182,6 +204,11 @@ public:
         }
         nnIndex_->saveIndex(fout);
         fclose(fout);
+    }
+
+    void save(FILE* fout)
+    {
+      nnIndex_->saveIndex(fout);
     }
 
     /**
@@ -367,6 +394,8 @@ public:
     	return nnIndex_->radiusSearch(queries, indices, dists, radius, params);
     }
 
+    
+
 private:
     IndexType* load_saved_index(const Matrix<ElementType>& dataset, const std::string& filename, Distance distance)
     {
@@ -388,6 +417,8 @@ private:
 
         return nnIndex;
     }
+
+    
 
     void swap( Index& other)
     {
