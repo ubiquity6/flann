@@ -82,10 +82,9 @@ public:
 
     Index() {}
 
-    void load_saved_index(const FILE* fin)
+    void load_saved_index(const Matrix<ElementType>& dataset, FILE* fin)
     {
-        Distance distance();
-        Matrix<ElementType> dataset;
+        Distance distance;
         IndexHeader header = load_header(fin);
         if (header.h.data_type != flann_datatype_value<ElementType>::value) {
             throw FLANNException("Datatype of saved index is different than of the one to be loaded.");
