@@ -37,6 +37,7 @@
 #include <cstring>
 #include <stdarg.h>
 #include <cmath>
+#include <random>
 
 #include "flann/general.h"
 #include "flann/algorithms/nn_index.h"

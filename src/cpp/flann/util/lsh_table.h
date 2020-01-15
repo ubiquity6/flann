@@ -39,6 +39,7 @@
 #include <iostream>
 #include <iomanip>
 #include <limits.h>
+#include <random>
 // TODO as soon as we use C++0x, use the code in USE_UNORDERED_MAP
 #if USE_UNORDERED_MAP
 #include <unordered_map>

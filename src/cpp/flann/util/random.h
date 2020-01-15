@@ -35,6 +35,7 @@
 #include <cstdlib>
 #include <cstddef>
 #include <vector>
+#include <random>
 
 #include "flann/general.h"
 
